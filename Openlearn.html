@@ -1,0 +1,1358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ultimate Machine Learning Cheat Sheet (Highly Detailed)</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700&display=swap');
+    body {
+      font-family: 'Rubik', sans-serif;
+      line-height: 1.7;
+      color: #000000;
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 20px;
+      background: linear-gradient(rgba(15, 40, 50, 0.9), rgba(10, 30, 40, 0.9)), url('background.jpg') center/cover fixed;
+      position: relative;
+      overflow-x: hidden;
+      min-height: 100vh;
+      text-shadow: 1px 1px 3px rgba(255,255,255,0.2);
+      backdrop-filter: blur(2px);
+    }
+    body:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 300px;
+      background: linear-gradient(to right bottom,
+        rgba(46, 134, 193, 0.1) 0%,
+        rgba(76, 145, 149, 0.15) 100%);
+      clip-path: polygon(0 0, 100% 0, 100% 60%, 0 100%);
+      z-index: -1;
+    }
+    h1, h2, h3, h4, h5 {
+      color: #000000;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+    }
+    h1 {
+      text-align: center;
+      padding: 30px 0;
+      margin: 40px 0;
+      position: relative;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+    h1:after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 150px;
+      height: 4px;
+      background: #2d3436;
+      border-radius: 2px;
+    }
+    h2 {
+      border-left: 6px solid #3498db;
+      padding-left: 15px;
+      background-color: #ecf0f1;
+      padding: 10px 15px;
+      margin-top: 30px;
+    }
+    h3 {
+      border-bottom: 1px dashed #95a5a6;
+      padding-bottom: 5px;
+    }
+    h4 {
+      color: #34495e;
+    }
+    .phase-box {
+      background: rgba(255,255,255,0.9);
+      border-radius: 12px;
+      box-shadow: 0 8px 32px rgba(46, 134, 193, 0.1),
+                  0 4px 16px rgba(76, 145, 149, 0.08);
+      padding: 30px;
+      margin-bottom: 40px;
+      border: 1px solid rgba(76, 145, 149, 0.15);
+      position: relative;
+      overflow: hidden;
+    }
+    .phase-box:before {
+      content: '';
+      position: absolute;
+      bottom: -50px;
+      right: -50px;
+      width: 150px;
+      height: 150px;
+      background: rgba(76, 145, 149, 0.05);
+      transform: rotate(45deg);
+    }
+    .problem-box {
+      background-color: #f5f9ff;
+      border-left: 5px solid #3498db;
+      padding: 20px;
+      margin: 20px 0;
+      border-radius: 5px;
+    }
+    .solutions {
+      background-color: #f0fff6;
+      border-left: 5px solid #2ecc71;
+      padding: 20px;
+      margin: 15px 0;
+      border-radius: 5px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 12px;
+      text-align: left;
+    }
+    th {
+      background: linear-gradient(145deg, #4c9195 0%, #2e86c1 100%);
+      color: white;
+      font-weight: 500;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+      position: relative;
+    }
+    th:after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: rgba(255,255,255,0.3);
+    }
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+    .phase-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 25px;
+    }
+    .phase-number {
+      background: linear-gradient(145deg, #4c9195 0%, #2e86c1 100%);
+      color: white;
+      width: 50px;
+      height: 50px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1.4em;
+      margin-right: 20px;
+      flex-shrink: 0;
+      box-shadow: 0 4px 12px rgba(76, 145, 149, 0.2);
+      position: relative;
+    }
+    .phase-number:after {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-radius: 12px;
+    }
+    .algorithm-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 10px 0;
+    }
+    .algorithm-tag {
+      background: rgba(76, 145, 149, 0.1);
+      border: 1px solid rgba(76, 145, 149, 0.3);
+      border-radius: 8px;
+      padding: 6px 15px;
+      font-size: 0.9em;
+      color: #2d3436;
+      transition: all 0.2s ease;
+    }
+    .algorithm-tag:hover {
+      background: rgba(76, 145, 149, 0.2);
+      transform: translateY(-1px);
+    }
+    .explanation {
+      background-color: #f9f9f9;
+      padding: 15px;
+      border-radius: 5px;
+      margin: 10px 0;
+    }
+    .best-practices {
+      background-color: #fff5e6;
+      border-left: 5px solid #e67e22;
+      padding: 20px;
+      margin: 15px 0;
+      border-radius: 5px;
+    }
+    .code-snippet {
+      background: #2d2d2d;
+      color: #d3d3d3;
+      padding: 20px;
+      border-radius: 6px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.9em;
+      margin: 20px 0;
+      overflow-x: auto;
+      position: relative;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      counter-reset: terminal-line;
+    }
+    .code-snippet pre {
+      margin: 0;
+      padding: 0;
+      color: #7fbd6f;
+    }
+    .code-snippet pre::before {
+      content: '$ ';
+      color: #7fbd6f;
+      margin-right: 8px;
+    }
+    .code-snippet pre span {
+      display: block;
+      padding-left: 2em;
+      text-indent: -1.5em;
+    }
+    .code-snippet pre span::before {
+      content: counter(terminal-line);
+      counter-increment: terminal-line;
+      color: #6c7a89;
+      margin-right: 1.5em;
+      display: inline-block;
+      width: 2em;
+      text-align: right;
+    }
+    .advanced-techniques {
+      background-color: #e8f8ff;
+      border-left: 5px solid #3498db;
+      padding: 20px;
+      margin: 15px 0;
+      border-radius: 5px;
+    }
+    .example-box {
+      background-color: #fefefe;
+      border: 1px solid #ddd;
+      padding: 15px;
+      margin: 15px 0;
+      border-radius: 5px;
+    }
+    .workflow-diagram {
+      text-align: center;
+      margin: 40px 0;
+      padding: 20px;
+      background-color: #ecf0f1;
+      border-radius: 10px;
+    }
+    .note {
+      font-style: italic;
+      color: #7f8c8d;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>OpenStrawLearn</h1>
+  <h1>Machine Learning</h1>
+  <div class="workflow-diagram">
+    <h2>Machine Learning Workflow Overview</h2>
+    <p><strong>Define Problem → Collect & Preprocess Data → Engineer Features → Select Model → Evaluate Model → Tune Hyperparameters → Deploy Model → Maintain Model</strong></p>
+    <p class="note">This cheat sheet covers the entire ML lifecycle with detailed explanations, techniques, and examples for each phase.</p>
+  </div>
+  
+  <!-- PHASE 1: Problem Definition -->
+  <div class="phase-box">
+    <div class="phase-header">
+      <div class="phase-number">1</div>
+      <h2>Problem Definition</h2>
+    </div>
+    
+    <div class="explanation">
+      <p>Defining the machine learning problem is the foundation of a successful project. This phase involves identifying the problem type, setting objectives, and establishing success criteria. A misdefined problem can lead to inappropriate models, metrics, or data, derailing the entire effort.</p>
+    </div>
+    
+    <div class="problem-box">
+      <h3>Identifying the Problem Type</h3>
+      <div class="explanation">
+        <p>Machine learning problems vary widely, and each type requires specific approaches. Below is a detailed breakdown of common problem types, their subtypes, and practical considerations.</p>
+      </div>
+      
+      <table>
+        <tr>
+          <th>Problem Type</th>
+          <th>Subtype</th>
+          <th>Description</th>
+          <th>Example Use Cases</th>
+          <th>Data Requirements</th>
+          <th>Key Challenges</th>
+        </tr>
+        <tr>
+          <td rowspan="3">Classification</td>
+          <td>Binary</td>
+          <td>Predict one of two mutually exclusive classes</td>
+          <td>Spam vs. not spam, disease vs. no disease</td>
+          <td>Labeled data with two classes</td>
+          <td>Imbalanced classes, choosing thresholds</td>
+        </tr>
+        <tr>
+          <td>Multi-class</td>
+          <td>Predict one of several mutually exclusive classes</td>
+          <td>Handwritten digit recognition (0-9), sentiment (positive, neutral, negative)</td>
+          <td>Labeled data with multiple classes</td>
+          <td>Class overlap, computational complexity</td>
+        </tr>
+        <tr>
+          <td>Multi-label</td>
+          <td>Predict multiple non-exclusive labels per instance</td>
+          <td>Tagging articles (politics, tech, sports), image labeling</td>
+          <td>Labeled data with multiple labels</td>
+          <td>Label correlation, evaluation complexity</td>
+        </tr>
+        <tr>
+          <td rowspan="3">Regression</td>
+          <td>Standard</td>
+          <td>Predict a continuous numerical value</td>
+          <td>House price prediction, temperature forecasting</td>
+          <td>Continuous target variable</td>
+          <td>Outliers, non-linear relationships</td>
+        </tr>
+        <tr>
+          <td>Time Series Forecasting</td>
+          <td>Predict future values based on temporal data</td>
+          <td>Stock prices, energy consumption</td>
+          <td>Sequential data with timestamps</td>
+          <td>Seasonality, trend detection</td>
+        </tr>
+        <tr>
+          <td>Ordinal</td>
+          <td>Predict ordered categories</td>
+          <td>Customer satisfaction (1-5 stars), severity levels</td>
+          <td>Data with ordered labels</td>
+          <td>Preserving order, limited algorithms</td>
+        </tr>
+        <tr>
+          <td rowspan="2">Unsupervised Learning</td>
+          <td>Clustering</td>
+          <td>Group similar data points without labels</td>
+          <td>Customer segmentation, image grouping</td>
+          <td>Unlabeled data</td>
+          <td>Choosing number of clusters, interpretability</td>
+        </tr>
+        <tr>
+          <td>Dimensionality Reduction</td>
+          <td>Reduce feature space while retaining information</td>
+          <td>Data visualization, noise reduction</td>
+          <td>High-dimensional data</td>
+          <td>Information loss, computational cost</td>
+        </tr>
+        <tr>
+          <td>Anomaly Detection</td>
+          <td>-</td>
+          <td>Identify rare or unusual data points</td>
+          <td>Fraud detection, equipment failure</td>
+          <td>Data with rare events</td>
+          <td>Defining "normal," imbalanced data</td>
+        </tr>
+        <tr>
+          <td>Reinforcement Learning</td>
+          <td>-</td>
+          <td>Learn optimal actions via trial and error</td>
+          <td>Game playing, robotics, ad optimization</td>
+          <td>Environment simulator, reward signal</td>
+          <td>Exploration vs. exploitation, sample inefficiency</td>
+        </tr>
+        <tr>
+          <td>Structured Prediction</td>
+          <td>-</td>
+          <td>Predict complex, structured outputs</td>
+          <td>Sequence labeling (NLP), image segmentation</td>
+          <td>Structured data (e.g., sequences, graphs)</td>
+          <td>Modeling dependencies, high complexity</td>
+        </tr>
+      </table>
+      
+      <div class="example-box">
+        <h4>Example:</h4>
+        <p><strong>Problem:</strong> Predict whether a customer will churn (yes/no).<br>
+        <strong>Type:</strong> Binary Classification.<br>
+        <strong>Data:</strong> Customer features (age, usage, subscription type).<br>
+        <strong>Challenge:</strong> Imbalanced data (few churners).</p>
+      </div>
+      
+      <div class="advanced-techniques">
+        <h4>Advanced Problem Types:</h4>
+        <ul>
+          <li><strong>Ranking:</strong> Order items by relevance (e.g., search engine results). Metrics: NDCG, MAP.</li>
+          <li><strong>Recommendation:</strong> Suggest items to users (e.g., movie recommendations). Approaches: Collaborative filtering, content-based.</li>
+          <li><strong>Survival Analysis:</strong> Predict time-to-event (e.g., customer churn time). Models: Cox regression, Kaplan-Meier.</li>
+        </ul>
+      </div>
+      
+      <div class="best-practices">
+        <h4>Best Practices:</h4>
+        <ul>
+          <li><strong>Define Success Metrics:</strong> Accuracy, revenue impact, user satisfaction.</li>
+          <li><strong>Assess Feasibility:</strong> Check data availability, quality, and domain expertise.</li>
+          <li><strong>Consider Constraints:</strong> Real-time vs. batch, computational resources.</li>
+          <li><strong>Evaluate Ethics:</strong> Bias, fairness, privacy implications.</li>
+          <li><strong>Iterate Early:</strong> Refine problem definition based on initial findings.</li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="problem-box">
+      <h3>Setting Business and Technical Objectives</h3>
+      <div class="explanation">
+        <p>Align ML goals with business needs and translate them into technical requirements.</p>
+      </div>
+      <div class="solutions">
+        <h4>Steps:</h4>
+        <ul>
+          <li><strong>Business Goal:</strong> E.g., "Reduce churn by 10%."</li>
+          <li><strong>ML Objective:</strong> E.g., "Predict churn probability with 85% precision."</li>
+          <li><strong>Technical Specs:</strong> Latency (<1s), deployment (cloud), scalability.</li>
+        </ul>
+      </div>
+      <div class="example-box">
+        <h4>Example:</h4>
+        <p><strong>Business:</strong> Improve ad click-through rate.<br>
+        <strong>ML:</strong> Rank ads by click probability.<br>
+        <strong>Tech:</strong> Real-time inference, <100ms latency.</p>
+      </div>
+    </div>
+  </div>
+  
+  <!-- PHASE 2: Data Collection & Preprocessing -->
+  <div class="phase-box">
+    <div class="phase-header">
+      <div class="phase-number">2</div>
+      <h2>Data Collection & Preprocessing</h2>
+    </div>
+    
+    <div class="explanation">
+      <p>Data is the lifeblood of machine learning. This phase involves gathering relevant data and preparing it for modeling by addressing quality issues, inconsistencies, and format differences.</p>
+    </div>
+    
+    <div class="problem-box">
+      <h3>Data Collection Challenges</h3>
+      
+      <h4>Insufficient Data</h4>
+      <div class="explanation">
+        <p>Small datasets limit model performance, especially for complex models like deep learning.</p>
+      </div>
+      <div class="solutions">
+        <h4>Solutions:</h4>
+        <ul>
+          <li><strong>Data Augmentation:</strong> Generate variations (e.g., rotate images, paraphrase text).</li>
+          <li><strong>Synthetic Data:</strong> Use GANs, VAEs, or rule-based generation.</li>
+          <li><strong>Transfer Learning:</strong> Fine-tune pre-trained models (e.g., BERT, ResNet).</li>
+          <li><strong>Active Learning:</strong> Prioritize labeling of high-impact samples.</li>
+          <li><strong>Data Purchase:</strong> Acquire external datasets if ethical and feasible.</li>
+        </ul>
+        <div class="code-snippet">
+          <pre>
+<span># Image augmentation with Python</span>
+<span>from tensorflow.keras.preprocessing.image import ImageDataGenerator</span>
+<span>datagen = ImageDataGenerator(rotation_range=20, zoom_range=0.15)</span>
+<span>datagen.fit(images)</span>
+          </pre>
+        </div>
+      </div>
+      
+      <h4>Imbalanced Data</h4>
+      <div class="explanation">
+        <p>Unequal class distributions (e.g., 5% fraud vs. 95% non-fraud) bias models toward the majority class.</p>
+      </div>
+      <div class="solutions">
+        <h4>Solutions:</h4>
+        <ul>
+          <li><strong>Oversampling:</strong> Duplicate minority class (e.g., SMOTE, ADASYN).</li>
+          <li><strong>Undersampling:</strong> Reduce majority class samples.</li>
+          <li><strong>Class Weights:</strong> Penalize misclassification of minority class.</li>
+          <li><strong>Ensemble Methods:</strong> Balanced Random Forest, EasyEnsemble.</li>
+          <li><strong>Anomaly Detection:</strong> Treat minority class as outliers.</li>
+        </ul>
+        <div class="algorithm-list">
+          <span class="algorithm-tag">SMOTE</span>
+          <span class="algorithm-tag">ADASYN</span>
+          <span class="algorithm-tag">RandomUnderSampler</span>
+          <span class="algorithm-tag">BalancedRandomForest</span>
+        </div>
+        <div class="code-snippet">
+          <pre>
+<span># SMOTE example</span>
+<span>from imblearn.over_sampling import SMOTE</span>
+<span>smote = SMOTE()</span>
+<span>X_balanced, y_balanced = smote.fit_resample(X, y)</span>
+          </pre>
+        </div>
+      </div>
+      
+      <h4>Diverse Data Types</h4>
+      <div class="explanation">
+        <p>Data may include numerical, categorical, text, images, or time series, each requiring tailored preprocessing.</p>
+      </div>
+      <div class="solutions">
+        <h4>Solutions:</h4>
+        <table>
+          <tr>
+            <th>Data Type</th>
+            <th>Techniques</th>
+            <th>Tools</th>
+            <th>Example</th>
+          </tr>
+          <tr>
+            <td>Numerical</td>
+            <td>Scaling, normalization, log transform</td>
+            <td>StandardScaler, MinMaxScaler</td>
+            <td>Normalize ages [0-100] to [0-1]</td>
+          </tr>
+          <tr>
+            <td>Categorical</td>
+            <td>One-hot encoding, embeddings</td>
+            <td>LabelEncoder, Word2Vec</td>
+            <td>Encode "red," "blue" as vectors</td>
+          </tr>
+          <tr>
+            <td>Text</td>
+            <td>Tokenization, TF-IDF, embeddings</td>
+            <td>NLTK, spaCy, BERT</td>
+            <td>Vectorize "I love ML" to [0.1, 0.5, ...]</td>
+          </tr>
+          <tr>
+            <td>Images</td>
+            <td>Resizing, normalization, augmentation</td>
+            <td>OpenCV, TensorFlow</td>
+            <td>Resize 256x256 image to 64x64</td>
+          </tr>
+          <tr>
+            <td>Time Series</td>
+            <td>Resampling, differencing</td>
+            <td>Pandas, statsmodels</td>
+            <td>Smooth hourly data to daily</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    
+    <div class="problem-box">
+      <h3>Data Preprocessing Challenges</h3>
+      
+      <h4>Missing Values</h4>
+      <div class="explanation">
+        <p>Missing data can bias models. Types include MCAR (random), MAR (conditional), MNAR (not at random).</p>
+      </div>
+      <div class="solutions">
+        <h4>Solutions:</h4>
+        <ul>
+          <li><strong>Deletion:</strong> Drop rows/columns (if <5% missing).</li>
+          <li><strong>Simple Imputation:</strong> Mean, median, mode.</li>
+          <li><strong>Advanced Imputation:</strong> KNN, regression, MICE.</li>
+          <li><strong>Indicator Variables:</strong> Add binary flag for missingness.</li>
+          <li><strong>Model-based:</strong> Use algorithms like XGBoost that handle missing data.</li>
+        </ul>
+        <div class="algorithm-list">
+          <span class="algorithm-tag">KNNImputer</span>
+          <span class="algorithm-tag">IterativeImputer</span>
+          <span class="algorithm-tag">MissForest</span>
+        </div>
+        <div class="code-snippet">
+          <pre>
+# KNN Imputation
+from sklearn.impute import KNNImputer
+imputer = KNNImputer(n_neighbors=5)
+X_imputed = imputer.fit_transform(X)
+          </pre>
+        </div>
+      </div>
+      
+      <h4>Outliers</h4>
+      <div class="explanation">
+        <p>Outliers can distort models but may also be meaningful (e.g., fraud).</p>
+      </div>
+      <div class="solutions">
+        <h4>Solutions:</h4>
+        <ul>
+          <li><strong>Detection:</strong> Z-score (>3), IQR (outside 1.5*IQR), Isolation Forest.</li>
+          <li><strong>Treatment:</strong> Cap/floor, log transform, robust scaling.</li>
+          <li><strong>Modeling:</strong> Use robust models (e.g., Huber regression).</li>
+        </ul>
+        <div class="algorithm-list">
+          <span class="algorithm-tag">IsolationForest</span>
+          <span class="algorithm-tag">LocalOutlierFactor</span>
+          <span class="algorithm-tag">RobustScaler</span>
+        </div>
+        <div class="example-box">
+          <h4>Example:</h4>
+          <p><strong>Data:</strong> Income values with $1M outlier.<br>
+          <strong>Solution:</strong> Cap at 99th percentile ($200K).</p>
+        </div>
+      </div>
+      
+      <h4>Feature Scaling</h4>
+      <div class="explanation">
+        <p>Scaling ensures features contribute equally to distance-based or gradient-based models.</p>
+      </div>
+      <div class="solutions">
+        <h4>Solutions:</h4>
+        <ul>
+          <li><strong>Standardization:</strong> (x - mean) / std → N(0,1).</li>
+          <li><strong>Min-Max Scaling:</strong> (x - min) / (max - min) → [0,1].</li>
+          <li><strong>Robust Scaling:</strong> (x - median) / IQR → Outlier-resistant.</li>
+          <li><strong>Normalization:</strong> L1/L2 norm → Unit length vectors.</li>
+        </ul>
+        <div class="code-snippet">
+          <pre>
+from sklearn.preprocessing import StandardScaler
+scaler = StandardScaler()
+X_scaled = scaler.fit_transform(X)
+          </pre>
+        </div>
+      </div>
+      
+      <h4>Categorical Data Encoding</h4>
+      <div class="explanation">
+        <p>Convert categorical variables into numerical representations suitable for models.</p>
+      </div>
+      <div class="solutions">
+        <h4>Solutions:</h4>
+        <ul>
+          <li><strong>One-Hot Encoding:</strong> Binary vectors for nominal data.</li>
+          <li><strong>Label Encoding:</strong> Integers for ordinal data.</li>
+          <li><strong>Target Encoding:</strong> Mean of target per category.</li>
+          <li><strong>Embeddings:</strong> Dense vectors for high-cardinality (e.g., Word2Vec).</li>
+          <li><strong>Frequency Encoding:</strong> Replace with category frequency.</li>
+          <li><strong>Binary Encoding:</strong> Binary representation of integers.</li>
+        </ul>
+        <div class="code-snippet">
+          <pre>
+# One-hot encoding
+from sklearn.preprocessing import OneHotEncoder
+encoder = OneHotEncoder(sparse=False)
+X_encoded = encoder.fit_transform(X_categorical)
+          </pre>
+        </div>
+      </div>
+    </div>
+    
+    <div class="best-practices">
+      <h4>Preprocessing Best Practices:</h4>
+      <ul>
+        <li><strong>Pipeline Automation:</strong> Use sklearn Pipeline to ensure consistency.</li>
+        <li><strong>Train-Test Leakage:</strong> Fit preprocessors on training data only.</li>
+        <li><strong>Exploratory Analysis:</strong> Visualize distributions, correlations.</li>
+        <li><strong>Documentation:</strong> Record preprocessing steps for reproducibility.</li>
+      </ul>
+    </div>
+  </div>
+  
+  <!-- PHASE 3: Feature Engineering -->
+  <div class="phase-box">
+    <div class="phase-header">
+      <div class="phase-number">3</div>
+      <h2>Feature Engineering</h2>
+    </div>
+    
+    <div class="explanation">
+      <p>Feature engineering transforms raw data into meaningful inputs for models, often leveraging domain knowledge to boost performance.</p>
+    </div>
+    
+    <div class="problem-box">
+      <h3>Creating Features from Unstructured Data</h3>
+      
+      <h4>Text Data</h4>
+      <div class="explanation">
+        <p>Text requires conversion into numerical form while preserving meaning.</p>
+      </div>
+      <div class="solutions">
+        <h4>Solutions:</h4>
+        <ul>
+          <li><strong>Bag of Words:</strong> Word count vectors.</li>
+          <li><strong>TF-IDF:</strong> Weighs word importance by rarity.</li>
+          <li><strong>N-grams:</strong> Capture phrases (e.g., "machine learning").</li>
+          <li><strong>Word Embeddings:</strong> Dense vectors (Word2Vec, GloVe).</li>
+          <li><strong>Contextual Embeddings:</strong> Dynamic vectors (BERT, ELMo).</li>
+          <li><strong>Sentiment Features:</strong> Polarity, subjectivity scores.</li>
+          <li><strong>POS Tagging:</strong> Part-of-speech counts.</li>
+        </ul>
+        <div class="code-snippet">
+          <pre>
+# TF-IDF example
+from sklearn.feature_extraction.text import TfidfVectorizer
+vectorizer = TfidfVectorizer(max_features=5000, ngram_range=(1,2))
+X_tfidf = vectorizer.fit_transform(text_data)
+          </pre>
+        </div>
+      </div>
+      
+      <h4>Image Data</h4>
+      <div class="explanation">
+        <p>Images need features that capture visual patterns.</p>
+      </div>
+      <div class="solutions">
+        <h4>Solutions:</h4>
+        <ul>
+          <li><strong>Raw Pixels:</strong> Flatten into vectors (simple models).</li>
+          <li><strong>Color Histograms:</strong> Distribution of RGB values.</li>
+          <li><strong>Edge Features:</strong> Sobel, Canny filters.</li>
+          <li><strong>Texture Features:</strong> Haralick, LBP (Local Binary Patterns).</li>
+          <li><strong>Keypoints:</strong> SIFT, SURF for object detection.</li>
+          <li><strong>Deep Features:</strong> CNN layers (e.g., VGG16, Inception).</li>
+        </ul>
+        <div class="code-snippet">
+          <pre>
+# Extract features with pre-trained CNN
+from tensorflow.keras.applications import VGG16
+model = VGG16(weights='imagenet', include_top=False)
+features = model.predict(images)
+          </pre>
+        </div>
+      </div>
+      
+      <h4>Time Series Data</h4>
+      <div class="explanation">
+        <p>Time series features capture temporal patterns.</p>
+      </div>
+      <div class="solutions">
+        <h4>Solutions:</h4>
+        <ul>
+          <li><strong>Lag Features:</strong> Past values (e.g., t-1, t-2).</li>
+          <li><strong>Rolling Stats:</strong> Mean, std, min/max over windows.</li>
+          <li><strong>Differences:</strong> First/second differences for stationarity.</li>
+          <li><strong>Fourier Transform:</strong> Frequency components.</li>
+          <li><strong>Wavelet Transform:</strong> Time-frequency analysis.</li>
+          <li><strong>Seasonal Features:</strong> Day, month, holiday flags.</li>
+        </ul>
+        <div class="code-snippet">
+          <pre>
+# Lag features with Pandas
+import pandas as pd
+df['lag_1'] = df['value'].shift(1)
+df['rolling_mean'] = df['value'].rolling(window=5).mean()
+          </pre>
+        </div>
+      </div>
+    </div>
+    
+    <div class="problem-box">
+      <h3>Feature Transformation</h3>
+      <div class="explanation">
+        <p>Transform existing features to improve model fit.</p>
+      </div>
+      <div class="solutions">
+        <h4>Solutions:</h4>
+        <ul>
+          <li><strong>Polynomial Features:</strong> Add squares, interactions.</li>
+          <li><strong>Log Transform:</strong> Reduce skewness (e.g., log(x+1)).</li>
+          <li><strong>Binning:</strong> Discretize continuous variables.</li>
+          <li><strong>Interaction Terms:</strong> Multiply features (e.g., height * weight).</li>
+          <li><strong>Ratio Features:</strong> Divide features (e.g., income/debt).</li>
+        </ul>
+        <div class="code-snippet">
+          <pre>
+# Polynomial features
+from sklearn.preprocessing import PolynomialFeatures
+poly = PolynomialFeatures(degree=2, include_bias=False)
+X_poly = poly.fit_transform(X)
+          </pre>
+        </div>
+      </div>
+    </div>
+    
+    <div class="problem-box">
+      <h3>Feature Selection</h3>
+      <div class="explanation">
+        <p>Select the most relevant features to reduce noise and complexity.</p>
+      </div>
+      <div class="solutions">
+        <h4>Methods:</h4>
+        <ul>
+          <li><strong>Filter Methods:</strong> Chi-square, ANOVA, mutual information.</li>
+          <li><strong>Wrapper Methods:</strong> RFE, forward/backward selection.</li>
+          <li><strong>Embedded Methods:</strong> LASSO, Elastic Net, tree importance.</li>
+          <li><strong>Dimensionality Reduction:</strong> PCA, LDA, t-SNE.</li>
+          <li><strong>Correlation Analysis:</strong> Remove highly correlated features.</li>
+        </ul>
+        <div class="algorithm-list">
+          <span class="algorithm-tag">SelectKBest</span>
+          <span class="algorithm-tag">RFE</span>
+          <span class="algorithm-tag">LassoCV</span>
+          <span class="algorithm-tag">PCA</span>
+          <span class="algorithm-tag">MutualInfoClassif</span>
+        </div>
+        <div class="code-snippet">
+          <pre>
+# Feature selection with Random Forest
+from sklearn.ensemble import RandomForestClassifier
+model = RandomForestClassifier()
+model.fit(X, y)
+importances = model.feature_importances_
+          </pre>
+        </div>
+      </div>
+      
+      <div class="advanced-techniques">
+        <h4>Automated Feature Engineering:</h4>
+        <ul>
+          <li><strong>Featuretools:</strong> Relational data feature synthesis.</li>
+          <li><strong>AutoFE:</strong> Genetic algorithms (e.g., TPOT).</li>
+          <li><strong>Deep Feature Synthesis:</strong> Automate time-series features.</li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="best-practices">
+      <h4>Feature Engineering Best Practices:</h4>
+      <ul>
+        <li><strong>Domain Knowledge:</strong> Collaborate with experts.</li>
+        <li><strong>Iterative Testing:</strong> Evaluate feature impact with simple models.</li>
+        <li><strong>Avoid Leakage:</strong> Never use target-related info in features.</li>
+        <li><strong>Scale Sensitivity:</strong> Match transformations to model needs.</li>
+      </ul>
+    </div>
+  </div>
+  
+  <!-- PHASE 4: Model Selection -->
+  <div class="phase-box">
+    <div class="phase-header">
+      <div class="phase-number">4</div>
+      <h2>Model Selection</h2>
+    </div>
+    
+    <div class="explanation">
+      <p>Choosing the right model balances accuracy, interpretability, and computational cost, tailored to the problem and data.</p>
+    </div>
+    
+    <div class="problem-box">
+      <h3>Algorithm Selection by Problem Type</h3>
+      <table>
+        <tr>
+          <th>Learning Type</th>
+          <th>Problem Subtype</th>
+          <th>Algorithms</th>
+          <th>Pros</th>
+          <th>Cons</th>
+          <th>When to Use</th>
+          <th>Complexity</th>
+        </tr>
+        <tr>
+          <td rowspan="2">Supervised</td>
+          <td>Classification</td>
+          <td>
+            <div class="algorithm-list">
+              <span class="algorithm-tag">Logistic Regression</span>
+              <span class="algorithm-tag">Decision Trees</span>
+              <span class="algorithm-tag">Random Forest</span>
+              <span class="algorithm-tag">Gradient Boosting (XGBoost, LightGBM, CatBoost)</span>
+              <span class="algorithm-tag">SVM</span>
+              <span class="algorithm-tag">KNN</span>
+              <span class="algorithm-tag">Naive Bayes</span>
+              <span class="algorithm-tag">Neural Networks (MLP, CNN, RNN)</span>
+            </div>
+          </td>
+          <td>
+            <ul>
+              <li><strong>Logistic:</strong> Fast, interpretable.</li>
+              <li><strong>RF:</strong> Robust, handles non-linearity.</li>
+              <li><strong>GB:</strong> High accuracy, missing data support.</li>
+              <li><strong>NN:</strong> Excels with large, complex data.</li>
+            </ul>
+          </td>
+          <td>
+            <ul>
+              <li><strong>Logistic:</strong> Linear assumption.</li>
+              <li><strong>RF:</strong> Slow inference, less interpretable.</li>
+              <li><strong>GB:</strong> Overfitting risk, tuning effort.</li>
+              <li><strong>NN:</strong> Data-hungry, black-box.</li>
+            </ul>
+          </td>
+          <td>
+            <ul>
+              <li><strong>Logistic:</strong> Baseline, simple data.</li>
+              <li><strong>RF:</strong> Tabular data, moderate size.</li>
+              <li><strong>GB:</strong> Competitive performance.</li>
+              <li><strong>NN:</strong> Images, text, big data.</li>
+            </ul>
+          </td>
+          <td>O(n) to O(n³)</td>
+        </tr>
+        <tr>
+          <td>Regression</td>
+          <td>
+            <div class="algorithm-list">
+              <span class="algorithm-tag">Linear Regression</span>
+              <span class="algorithm-tag">Ridge/Lasso/Elastic Net</span>
+              <span class="algorithm-tag">Decision Trees</span>
+              <span class="algorithm-tag">Random Forest</span>
+              <span class="algorithm-tag">Gradient Boosting</span>
+              <span class="algorithm-tag">SVR</span>
+              <span class="algorithm-tag">Gaussian Process</span>
+              <span class="algorithm-tag">Neural Networks</span>
+            </div>
+          </td>
+          <td>
+            <ul>
+              <li><strong>Linear:</strong> Simple, fast.</li>
+              <li><strong>Ridge:</strong> Handles multicollinearity.</li>
+              <li><strong>RF:</strong> Non-linear, robust.</li>
+              <li><strong>GP:</strong> Uncertainty estimates.</li>
+            </ul>
+          </td>
+          <td>
+            <ul>
+              <li><strong>Linear:</strong> Linear assumption.</li>
+              <li><strong>Ridge:</strong> Limited flexibility.</li>
+              <li><strong>RF:</strong> Overfitting risk.</li>
+              <li><strong>GP:</strong> Scales poorly (O(n³)).</li>
+            </ul>
+          </td>
+          <td>
+            <ul>
+              <li><strong>Linear:</strong> Simple relationships.</li>
+              <li><strong>Ridge:</strong> Correlated features.</li>
+              <li><strong>RF:</strong> Non-linear trends.</li>
+              <li><strong>GP:</strong> Small data, uncertainty needed.</li>
+            </ul>
+          </td>
+          <td>O(n) to O(n³)</td>
+        </tr>
+        <tr>
+          <td>Unsupervised</td>
+          <td>Clustering</td>
+          <td>
+            <div class="algorithm-list">
+              <span class="algorithm-tag">K-Means</span>
+              <span class="algorithm-tag">DBSCAN</span>
+              <span class="algorithm-tag">Hierarchical Clustering</span>
+              <span class="algorithm-tag">Gaussian Mixture Models</span>
+              <span class="algorithm-tag">Spectral Clustering</span>
+            </div>
+          </td>
+          <td>
+            <ul>
+              <li><strong>K-Means:</strong> Fast, scalable.</li>
+              <li><strong>DBSCAN:</strong> Handles noise, irregular shapes.</li>
+              <li><strong>GMM:</strong> Probabilistic, flexible.</li>
+            </ul>
+          </td>
+          <td>
+            <ul>
+              <li><strong>K-Means:</strong> Assumes spherical clusters.</li>
+              <li><strong>DBSCAN:</strong> Sensitive to parameters.</li>
+              <li><strong>GMM:</strong> Computationally intensive.</li>
+            </ul>
+          </td>
+          <td>
+            <ul>
+              <li><strong>K-Means:</strong> Large, spherical data.</li>
+              <li><strong>DBSCAN:</strong> Noisy data, unknown k.</li>
+              <li><strong>GMM:</strong> Soft clustering needed.</li>
+            </ul>
+          </td>
+          <td>O(n) to O(n²)</td>
+        </tr>
+      </table>
+      
+      <div class="example-box">
+        <h4>Example:</h4>
+        <p><strong>Problem:</strong> Predict house prices.<br>
+        <strong>Choice:</strong> Random Forest.<br>
+        <strong>Reason:</strong> Non-linear relationships, moderate dataset size.</p>
+      </div>
+    </div>
+    
+    <div class="advanced-techniques">
+      <h4>Ensemble Methods:</h4>
+      <ul>
+        <li><strong>Bagging:</strong> Parallel models (e.g., Random Forest). Reduces variance.</li>
+        <li><strong>Boosting:</strong> Sequential models (e.g., XGBoost). Reduces bias.</li>
+        <li><strong>Stacking:</strong> Meta-learner combines predictions.</li>
+        <li><strong>Voting:</strong> Majority (hard) or average (soft) predictions.</li>
+      </ul>
+      <div class="code-snippet">
+        <pre>
+# Stacking example
+from sklearn.ensemble import StackingClassifier
+from sklearn.linear_model import LogisticRegression
+estimators = [('rf', RandomForestClassifier()), ('svm', SVC())]
+stacking = StackingClassifier(estimators=estimators, final_estimator=LogisticRegression())
+stacking.fit(X, y)
+        </pre>
+      </div>
+    </div>
+    
+    <div class="best-practices">
+      <h4>Model Selection Best Practices:</h4>
+      <ul>
+        <li><strong>Start Simple:</strong> Use linear models as baselines.</li>
+        <li><strong>Match Data Size:</strong> Avoid complex models with small data.</li>
+        <li><strong>Interpretability:</strong> Prioritize if explanations are needed.</li>
+        <li><strong>Benchmark:</strong> Compare multiple models on validation set.</li>
+      </ul>
+    </div>
+  </div>
+  
+  <!-- PHASE 5: Model Evaluation -->
+  <div class="phase-box">
+    <div class="phase-header">
+      <div class="phase-number">5</div>
+      <h2>Model Evaluation</h2>
+    </div>
+    
+    <div class="explanation">
+      <p>Evaluation ensures models generalize to unseen data using appropriate metrics and validation techniques.</p>
+    </div>
+    
+    <div class="problem-box">
+      <h3>Evaluation Metrics</h3>
+      
+      <h4>Classification</h4>
+      <div class="solutions">
+        <ul>
+          <li><strong>Accuracy:</strong> (TP+TN)/(TP+TN+FP+FN). Good for balanced data.</li>
+          <li><strong>Precision:</strong> TP/(TP+FP). Minimize false positives.</li>
+          <li><strong>Recall:</strong> TP/(TP+FN). Minimize false negatives.</li>
+          <li><strong>F1-Score:</strong> 2*(Precision*Recall)/(Precision+Recall). Balances precision/recall.</li>
+          <li><strong>ROC-AUC:</strong> TPR vs. FPR across thresholds.</li>
+          <li><strong>PR-AUC:</strong> Precision vs. recall, better for imbalanced data.</li>
+          <li><strong>Log Loss:</strong> Penalizes confident wrong predictions.</li>
+          <li><strong>Cohen’s Kappa:</strong> Agreement beyond chance.</li>
+        </ul>
+        <div class="example-box">
+          <h4>Example:</h4>
+          <p><strong>Scenario:</strong> Fraud detection (1% fraud).<br>
+          <strong>Metric:</strong> PR-AUC over accuracy due to imbalance.</p>
+        </div>
+      </div>
+      
+      <h4>Regression</h4>
+      <div class="solutions">
+        <ul>
+          <li><strong>MAE:</strong> Mean(|y - ŷ|). Robust to outliers.</li>
+          <li><strong>MSE:</strong> Mean((y - ŷ)²). Sensitive to outliers.</li>
+          <li><strong>RMSE:</strong> √MSE. Interpretable in target units.</li>
+          <li><strong>R²:</strong> 1 - (SS_res/SS_tot). Variance explained.</li>
+          <li><strong>MAPE:</strong> Mean(|(y - ŷ)/y|). Percentage error.</li>
+          <li><strong>Median AE:</strong> Median(|y - ŷ|). Outlier-resistant.</li>
+        </ul>
+      </div>
+      
+      <h4>Clustering</h4>
+      <div class="solutions">
+        <ul>
+          <li><strong>Silhouette Score:</strong> (-1 to 1). Cohesion vs. separation.</li>
+          <li><strong>Davies-Bouldin:</strong> Lower is better. Cluster similarity.</li>
+          <li><strong>Calinski-Harabasz:</strong> Higher is better. Variance ratio.</li>
+          <li><strong>ARI:</strong> Adjusted Rand Index with ground truth.</li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="problem-box">
+      <h3>Validation Strategies</h3>
+      <div class="solutions">
+        <h4>Methods:</h4>
+        <ul>
+          <li><strong>Hold-Out:</strong> Split data (e.g., 80-20).</li>
+          <li><strong>K-Fold CV:</strong> K splits, average performance.</li>
+          <li><strong>Stratified K-Fold:</strong> Preserve class ratios.</li>
+          <li><strong>LOOCV:</strong> Leave-one-out for small datasets.</li>
+          <li><strong>Time Series CV:</strong> Forward-chaining split.</li>
+          <li><strong>Nested CV:</strong> Inner loop for tuning, outer for evaluation.</li>
+        </ul>
+        <div class="code-snippet">
+          <pre>
+# Stratified K-Fold
+from sklearn.model_selection import StratifiedKFold
+skf = StratifiedKFold(n_splits=5)
+for train_idx, test_idx in skf.split(X, y):
+    X_train, X_test = X[train_idx], X[test_idx]
+          </pre>
+        </div>
+      </div>
+      
+      <div class="example-box">
+        <h4>Example:</h4>
+        <p><strong>Data:</strong> Time series sales.<br>
+        <strong>Method:</strong> Time Series CV to avoid future leakage.</p>
+      </div>
+    </div>
+    
+    <div class="best-practices">
+      <h4>Evaluation Best Practices:</h4>
+      <ul>
+        <li><strong>Metric Alignment:</strong> Match metrics to business goals.</li>
+        <li><strong>Robust Validation:</strong> Use CV for small datasets.</li>
+        <li><strong>Bias Check:</strong> Evaluate on subgroups for fairness.</li>
+        <li><strong>Baseline:</strong> Compare to simple models (e.g., mean predictor).</li>
+      </ul>
+    </div>
+  </div>
+  
+  <!-- PHASE 6: Hyperparameter Tuning -->
+  <div class="phase-box">
+    <div class="phase-header">
+      <div class="phase-number">6</div>
+      <h2>Hyperparameter Tuning</h2>
+    </div>
+    
+    <div class="explanation">
+      <p>Hyperparameters control model behavior and must be optimized for peak performance.</p>
+    </div>
+    
+    <div class="problem-box">
+      <h3>Tuning Techniques</h3>
+      <div class="solutions">
+        <h4>Methods:</h4>
+        <ul>
+          <li><strong>Manual Tuning:</strong> Expert-guided adjustments.</li>
+          <li><strong>Grid Search:</strong> Exhaustive search over grid.</li>
+          <li><strong>Random Search:</strong> Sample parameter space randomly.</li>
+          <li><strong>Bayesian Optimization:</strong> Probabilistic model-guided.</li>
+          <li><strong>Genetic Algorithms:</strong> Evolutionary optimization.</li>
+          <li><strong>Hyperband:</strong> Resource-efficient early stopping.</li>
+          <li><strong>SMAC:</strong> Sequential Model-based Algorithm Configuration.</li>
+        </ul>
+        <div class="algorithm-list">
+          <span class="algorithm-tag">GridSearchCV</span>
+          <span class="algorithm-tag">RandomizedSearchCV</span>
+          <span class="algorithm-tag">BayesSearchCV</span>
+          <span class="algorithm-tag">Hyperopt</span>
+        </div>
+        <div class="code-snippet">
+          <pre>
+# Random Search
+from sklearn.model_selection import RandomizedSearchCV
+param_dist = {'n_estimators': [50, 100, 200], 'max_depth': [None, 10, 20]}
+search = RandomizedSearchCV(RandomForestClassifier(), param_dist, n_iter=10)
+search.fit(X, y)
+          </pre>
+        </div>
+      </div>
+      
+      <div class="advanced-techniques">
+        <h4>Advanced Tuning:</h4>
+        <ul>
+          <li><strong>Learning Rate Schedules:</strong> Step decay, exponential decay.</li>
+          <li><strong>Early Stopping:</strong> Halt when validation stalls.</li>
+          <li><strong>Population-Based Training:</strong> Evolve hyperparameters dynamically.</li>
+          <li><strong>AutoML:</strong> End-to-end tuning (e.g., Auto-sklearn, H2O).</li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="problem-box">
+      <h3>Common Hyperparameters</h3>
+      <table>
+        <tr>
+          <th>Algorithm</th>
+          <th>Key Hyperparameters</th>
+          <th>Impact</th>
+        </tr>
+        <tr>
+          <td>Random Forest</td>
+          <td>n_estimators, max_depth, min_samples_split</td>
+          <td>Tree count, depth control overfitting</td>
+        </tr>
+        <tr>
+          <td>Gradient Boosting</td>
+          <td>learning_rate, n_estimators, max_depth</td>
+          <td>Step size, boosting rounds, complexity</td>
+        </tr>
+        <tr>
+          <td>SVM</td>
+          <td>C, kernel, gamma</td>
+          <td>Regularization, kernel type, flexibility</td>
+        </tr>
+        <tr>
+          <td>Neural Networks</td>
+          <td>layers, units, learning_rate, dropout</td>
+          <td>Architecture, optimization, regularization</td>
+        </tr>
+      </table>
+    </div>
+    
+    <div class="best-practices">
+      <h4>Tuning Best Practices:</h4>
+      <ul>
+        <li><strong>Coarse-to-Fine:</strong> Broad search, then refine.</li>
+        <li><strong>Parallelize:</strong> Use multiple cores or GPUs.</li>
+        <li><strong>Log Results:</strong> Track with tools like MLflow.</li>
+        <li><strong>Budget Time:</strong> Balance tuning vs. development.</li>
+      </ul>
+    </div>
+  </div>
+  
+  <!-- PHASE 7: Model Deployment -->
+  <div class="phase-box">
+    <div class="phase-header">
+      <div class="phase-number">7</div>
+      <h2>Model Deployment</h2>
+    </div>
+    
+    <div class="explanation">
+      <p>Deployment brings models into production, ensuring they are scalable, reliable, and accessible.</p>
+    </div>
+    
+    <div class="problem-box">
+      <h3>Deployment Scenarios</h3>
+      <div class="solutions">
+        <h4>Options:</h4>
+        <ul>
+          <li><strong>Real-Time:</strong> APIs (Flask, FastAPI, Django).</li>
+          <li><strong>Batch:</strong> Scheduled jobs (Airflow, Spark).</li>
+          <li><strong>Edge:</strong> On-device (TensorFlow Lite, ONNX).</li>
+          <li><strong>Cloud:</strong> Managed services (AWS SageMaker, Azure ML).</li>
+          <li><strong>Serverless:</strong> Event-driven (AWS Lambda).</li>
+        </ul>
+        <div class="code-snippet">
+          <pre>
+# Flask API example
+from flask import Flask, request
+app = Flask(__name__)
+@app.route('/predict', methods=['POST'])
+def predict():
+    data = request.json
+    prediction = model.predict(data['features'])
+    return {'prediction': prediction.tolist()}
+          </pre>
+        </div>
+      </div>
+    </div>
+    
+    <div class="problem-box">
+      <h3>Deployment Challenges</h3>
+      
+      <h4>Scalability</h4>
+      <div class="solutions">
+        <ul>
+          <li><strong>Load Balancing:</strong> Distribute requests (NGINX).</li>
+          <li><strong>Auto-Scaling:</strong> Cloud-based scaling (Kubernetes).</li>
+          <li><strong>Caching:</strong> Store frequent predictions (Redis).</li>
+        </ul>
+      </div>
+      
+      <h4>Versioning</h4>
+      <div class="solutions">
+        <ul>
+          <li><strong>Model Registry:</strong> MLflow, DVC.</li>
+          <li><strong>API Versioning:</strong> /v1/predict vs. /v2/predict.</li>
+          <li><strong>Rollback:</strong> Deploy old versions if needed.</li>
+        </ul>
+      </div>
+      
+      <h4>Monitoring</h4>
+      <div class="solutions">
+        <ul>
+          <li><strong>Performance:</strong> Track latency, error rates.</li>
+          <li><strong>Prediction Quality:</strong> Log predictions vs. ground truth.</li>
+          <li><strong>Tools:</strong> Prometheus, Grafana, ELK stack.</li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="best-practices">
+      <h4>Deployment Best Practices:</h4>
+      <ul>
+        <li><strong>CI/CD:</strong> Automate with GitHub Actions, Jenkins.</li>
+        <li><strong>A/B Testing:</strong> Compare model versions live.</li>
+        <li><strong>Security:</strong> Authenticate APIs, encrypt data.</li>
+        <li><strong>Documentation:</strong> Provide API specs (Swagger).</li>
+      </ul>
+    </div>
+  </div>
+  
+  <!-- PHASE 8: Model Maintenance -->
+  <div class="phase-box">
+    <div class="phase-header">
+      <div class="phase-number">8</div>
+      <h2>Model Maintenance</h2>
+    </div>
+    
+    <div class="explanation">
+      <p>Models degrade over time due to changing data or environments, requiring proactive maintenance.</p>
+    </div>
+    
+    <div class="problem-box">
+      <h3>Detecting Drift</h3>
+      <div class="explanation">
+        <p><strong>Data Drift:</strong> Feature distribution shifts.<br><strong>Concept Drift:</strong> Target relationship changes.</p>
+      </div>
+      <div class="solutions">
+        <h4>Solutions:</h4>
+        <ul>
+          <li><strong>Statistical Tests:</strong> KS test, Chi-square.</li>
+          <li><strong>Distance Metrics:</strong> KL divergence, Wasserstein.</li>
+          <li><strong>Performance Drop:</strong> Monitor metrics over time.</li>
+          <li><strong>Algorithms:</strong> ADWIN, DDM, EDDM.</li>
+        </ul>
+        <div class="code-snippet">
+          <pre>
+# KS Test for drift
+from scipy.stats import ks_2samp
+stat, p = ks_2samp(old_data['feature'], new_data['feature'])
+if p < 0.05:
+    print("Drift detected")
+          </pre>
+        </div>
+      </div>
+    </div>
+    
+    <div class="problem-box">
+      <h3>Retraining Strategies</h3>
+      <div class="solutions">
+        <h4>Solutions:</h4>
+        <ul>
+          <li><strong>Periodic:</strong> Retrain monthly/quarterly.</li>
+          <li><strong>Threshold-Based:</strong> Retrain if AUC drops 5%.</li>
+          <li><strong>Online Learning:</strong> Update incrementally.</li>
+          <li><strong>Shadow Model:</strong> Test new model alongside live one.</li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="problem-box">
+      <h3>Model Interpretability</h3>
+      <div class="solutions">
+        <h4>Solutions:</h4>
+        <ul>
+          <li><strong>SHAP:</strong> Feature importance with Shapley values.</li>
+          <li><strong>LIME:</strong> Local explanations for predictions.</li>
+          <li><strong>Partial Dependence:</strong> Feature effect on output.</li>
+          <li><strong>Feature Permutation:</strong> Importance via shuffling.</li>
+        </ul>
+        <div class="code-snippet">
+          <pre>
+# SHAP example
+import shap
+explainer = shap.TreeExplainer(model)
+shap_values = explainer.shap_values(X)
+shap.summary_plot(shap_values, X)
+          </pre>
+        </div>
+      </div>
+    </div>
+    
+    <div class="best-practices">
+      <h4>Maintenance Best Practices:</h4>
+      <ul>
+        <li><strong>Automate Pipelines:</strong> Schedule drift checks, retraining.</li>
+        <li><strong>Version Everything:</strong> Data, code, models.</li>
+        <li><strong>Fallback Plans:</strong> Default to baseline if model fails.</li>
+        <li><strong>Stakeholder Feedback:</strong> Incorporate user insights.</li>
+      </ul>
+    </div>
+  </div>
+</body>
+</html>
